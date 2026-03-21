@@ -76,7 +76,9 @@ func AttachFunctions(ctx context.Context, conf *config.Config, router *http.Serv
 		if peerIP != nil {
 			clusterPeers = append(clusterPeers, peerIP.String())
 		} else {
-			addr, err := net.LookupHost(host)
+			resolver := net.Resolver{}
+
+			addr, err := resolver.LookupHost(ctx, host)
 			if err != nil {
 				r.logger.Error("Unable to resolve peer to addr", log15.Ctx{"peer": peer, "error": err})
 
