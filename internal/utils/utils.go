@@ -21,7 +21,7 @@ func PathExists(path string) bool {
 func ParseTags(in string) (map[string]string, error) {
 	out := map[string]string{}
 
-	for _, entry := range strings.Split(in, ",") {
+	for entry := range strings.SplitSeq(in, ",") {
 		entry = strings.TrimSpace(entry)
 		if entry == "" {
 			continue

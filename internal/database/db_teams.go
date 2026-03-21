@@ -87,8 +87,8 @@ func (db *DB) GetTeamForIP(ctx context.Context, ip net.IP) (*api.AdminTeam, erro
 			continue
 		}
 
-		subnets := strings.Split(team.Subnets, ",")
-		for _, subnet := range subnets {
+		subnets := strings.SplitSeq(team.Subnets, ",")
+		for subnet := range subnets {
 			subnet = strings.TrimSpace(subnet)
 
 			_, netSubnet, err := net.ParseCIDR(subnet)
