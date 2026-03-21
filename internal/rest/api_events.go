@@ -328,7 +328,7 @@ func (r *rest) forwardEvents(peer string) {
 	if r.config.Daemon.HTTPSCertificate != "" {
 		cert := r.config.Daemon.HTTPSCertificate
 		if !strings.Contains(cert, "\n") && utils.PathExists(cert) {
-			content, err := os.ReadFile(cert) //nolint:gosec
+			content, err := os.ReadFile(cert)
 			if err != nil {
 				r.logger.Error("Failed to read cluster certificate", log15.Ctx{"error": err, "peer": peer})
 

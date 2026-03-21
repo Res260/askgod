@@ -179,7 +179,7 @@ func (d *Daemon) Run(ctx context.Context) error {
 		// Load the X509 certificates
 		cert := d.config.Daemon.HTTPSCertificate
 		if !strings.Contains(cert, "\n") && utils.PathExists(cert) {
-			content, err := os.ReadFile(cert) //nolint:gosec
+			content, err := os.ReadFile(cert)
 			if err != nil {
 				return err
 			}
@@ -189,7 +189,7 @@ func (d *Daemon) Run(ctx context.Context) error {
 
 		key := d.config.Daemon.HTTPSKey
 		if !strings.Contains(key, "\n") && utils.PathExists(key) {
-			content, err := os.ReadFile(key) //nolint:gosec
+			content, err := os.ReadFile(key)
 			if err != nil {
 				return err
 			}

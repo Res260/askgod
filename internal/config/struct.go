@@ -31,7 +31,7 @@ func (c *Config) RegisterHandler(handler func(*Config)) error {
 
 func parseConfig(configPath string, conf *api.Config) error {
 	// Read the file's content
-	content, err := os.ReadFile(configPath) //nolint:gosec
+	content, err := os.ReadFile(configPath)
 	if err != nil {
 		return fmt.Errorf("failed to read file content: %w", err)
 	}
