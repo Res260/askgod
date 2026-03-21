@@ -29,6 +29,8 @@ func (r *rest) adminGetScores(writer http.ResponseWriter, request *http.Request,
 
 func (r *rest) adminCreateScore(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
 	// Bulk create
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	bulkVar := request.FormValue("bulk")
 	if bulkVar == "1" {
 		r.adminCreateScores(writer, request, logger)
@@ -318,6 +320,8 @@ func (r *rest) adminDeleteScore(writer http.ResponseWriter, request *http.Reques
 }
 
 func (r *rest) adminClearScores(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	emptyVar := request.FormValue("empty")
 
 	// Confirm the user is sure about it

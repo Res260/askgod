@@ -299,6 +299,8 @@ func (r *rest) adminGetFlags(writer http.ResponseWriter, request *http.Request, 
 
 func (r *rest) adminCreateFlag(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
 	// Bulk create
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	bulkVar := request.FormValue("bulk")
 	if bulkVar == "1" {
 		r.adminCreateFlags(writer, request, logger)
@@ -454,6 +456,8 @@ func (r *rest) adminDeleteFlag(writer http.ResponseWriter, request *http.Request
 }
 
 func (r *rest) adminClearFlags(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	emptyVar := request.FormValue("empty")
 
 	// Confirm the user is sure about it

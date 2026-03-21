@@ -115,6 +115,8 @@ func (r *rest) getEvents(writer http.ResponseWriter, request *http.Request, logg
 	listener := eventListener{}
 
 	// Get the provided event type
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	typeStr := request.FormValue("type")
 	if typeStr == "" {
 		logger.Warn("Events request without a type")

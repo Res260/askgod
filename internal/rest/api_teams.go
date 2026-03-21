@@ -194,6 +194,8 @@ func (r *rest) adminGetTeams(writer http.ResponseWriter, request *http.Request, 
 
 func (r *rest) adminCreateTeam(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
 	// Bulk create
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	bulkVar := request.FormValue("bulk")
 	if bulkVar == "1" {
 		r.adminCreateTeams(writer, request, logger)
@@ -353,6 +355,8 @@ func (r *rest) adminDeleteTeam(writer http.ResponseWriter, request *http.Request
 }
 
 func (r *rest) adminClearTeams(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
+	request.Body = http.MaxBytesReader(writer, request.Body, 1024*1024)
+
 	emptyVar := request.FormValue("empty")
 
 	// Confirm the user is sure about it
