@@ -33,7 +33,10 @@ database:
   driver: postgres
 
   # Database host (FQDN or IP)
+  # For local development
   host: localhost
+  # For docker-compose
+  #host: database
 
   # Database username
   username: askgod
@@ -80,15 +83,15 @@ teams:
 subnets:
   # Admin API access
   admins:
-    - ::1/128
-    - 127.0.0.1/32
+    - ::/0
+    - 0.0.0.0/0
 
   # Team API access
   teams:
-    - ::1/128
-    - 127.0.0.1/32
+    - ::/0
+    - 0.0.0.0/0
 
   # Guest API access
   guests:
-    - ::1/128
-    - 127.0.0.1/32
+    - ::/0
+    - 0.0.0.0/0
