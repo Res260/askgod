@@ -76,6 +76,9 @@ linters:
         - name: function-result-limit
           arguments:
             - 8
+        - name: argument-limit
+          arguments:
+            - 10
 
     tagliatelle:
       case:
