@@ -4,11 +4,11 @@ import (
 	"database/sql"
 	"errors"
 	"net/http"
+	"slices"
 
 	"github.com/inconshreveable/log15"
 
 	"github.com/nsec/askgod/api"
-	"github.com/nsec/askgod/internal/utils"
 )
 
 func (r *rest) getScoreboard(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
@@ -63,7 +63,7 @@ func (r *rest) getScoreboard(writer http.ResponseWriter, request *http.Request, 
 				continue
 			}
 
-			if utils.Int64InSlice(entry.Team.ID, r.hiddenTeams) && (team == nil || team.ID != entry.Team.ID) {
+			if slices.Contains(r.hiddenTeams, entry.Team.ID) && (team == nil || team.ID != entry.Team.ID) {
 				continue
 			}
 

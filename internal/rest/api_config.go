@@ -4,11 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"slices"
 
 	"github.com/inconshreveable/log15"
 
 	"github.com/nsec/askgod/api"
-	"github.com/nsec/askgod/internal/utils"
 )
 
 func (r *rest) getConfig(writer http.ResponseWriter, request *http.Request, _ log15.Logger) {
@@ -81,7 +81,7 @@ func (r *rest) configHiddenTeams() error {
 	}
 
 	for _, team := range teams {
-		if utils.StringInSlice(team.Name, r.config.Teams.Hidden) {
+		if slices.Contains(r.config.Teams.Hidden, team.Name) {
 			teamIDs = append(teamIDs, team.ID)
 		}
 	}

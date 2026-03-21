@@ -3,10 +3,9 @@ package rest
 import (
 	"net"
 	"net/http"
+	"slices"
 
 	"github.com/inconshreveable/log15"
-
-	"github.com/nsec/askgod/internal/utils"
 )
 
 func (r *rest) getIP(request *http.Request) (*net.IP, error) {
@@ -101,5 +100,5 @@ func (r *rest) isPeer(request *http.Request) bool {
 		return false
 	}
 
-	return utils.StringInSlice(ip.String(), clusterPeers)
+	return slices.Contains(clusterPeers, ip.String())
 }

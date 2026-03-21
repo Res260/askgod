@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"slices"
 	"sort"
 	"strconv"
 
@@ -11,7 +12,6 @@ import (
 	"github.com/urfave/cli/v2"
 
 	"github.com/nsec/askgod/api"
-	"github.com/nsec/askgod/internal/utils"
 )
 
 // Sorting.
@@ -114,7 +114,7 @@ func (c *client) cmdScoreboard(ctx *cli.Context) error {
 			}
 
 			// Ignore events we don't care about
-			if !utils.StringInSlice(entry.Type, []string{"reload", "team-updated", "team-removed", "score-updated"}) {
+			if !slices.Contains([]string{"reload", "team-updated", "team-removed", "score-updated"}, entry.Type) {
 				continue
 			}
 

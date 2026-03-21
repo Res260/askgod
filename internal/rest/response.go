@@ -3,18 +3,17 @@ package rest
 import (
 	"encoding/json"
 	"net/http"
+	"slices"
 
 	"github.com/inconshreveable/log15"
-
-	"github.com/nsec/askgod/internal/utils"
 )
 
 func (r *rest) processOrigin(writer http.ResponseWriter, request *http.Request) {
 	origin := request.Header.Get("Origin")
 	if origin != "" {
-		if utils.StringInSlice(origin, r.config.Daemon.AllowedOrigins) {
+		if slices.Contains(r.config.Daemon.AllowedOrigins, origin) {
 			writer.Header().Set("Access-Control-Allow-Origin", origin)
-		} else if utils.StringInSlice("*", r.config.Daemon.AllowedOrigins) {
+		} else if slices.Contains(r.config.Daemon.AllowedOrigins, "*") {
 			writer.Header().Set("Access-Control-Allow-Origin", "*")
 		}
 

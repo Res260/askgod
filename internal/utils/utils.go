@@ -3,7 +3,6 @@ package utils
 import (
 	"fmt"
 	"os"
-	"slices"
 	"sort"
 	"strings"
 )
@@ -16,16 +15,6 @@ func PathExists(path string) bool {
 	}
 
 	return true
-}
-
-// StringInSlice returns true if the provided string is in the provided slice.
-func StringInSlice(key string, list []string) bool {
-	return slices.Contains(list, key)
-}
-
-// Int64InSlice returns true if the provided int64 is in the provided slice.
-func Int64InSlice(key int64, list []int64) bool {
-	return slices.Contains(list, key)
 }
 
 // ParseTags converts a serialized tags list to map[string]string.

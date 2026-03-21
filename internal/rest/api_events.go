@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"slices"
 	"strings"
 	"sync"
 	"time"
@@ -132,7 +133,7 @@ func (r *rest) getEvents(writer http.ResponseWriter, request *http.Request, logg
 	eventTypes := strings.Split(typeStr, ",")
 	for _, entry := range eventTypes {
 		// Make sure that all types are valid
-		if !utils.StringInSlice(entry, []string{"timeline", "logging", "flags"}) {
+		if !slices.Contains([]string{"timeline", "logging", "flags"}, entry) {
 			logger.Warn("Invalid event type", log15.Ctx{"type": entry})
 			r.errorResponse(400, "Invalid event type", writer, request)
 
@@ -140,7 +141,7 @@ func (r *rest) getEvents(writer http.ResponseWriter, request *http.Request, logg
 		}
 
 		// Admin access control
-		if utils.StringInSlice(entry, []string{"logging", "flags"}) && !r.hasAccess("admin", request) {
+		if slices.Contains([]string{"logging", "flags"}, entry) && !r.hasAccess("admin", request) {
 			logger.Warn("Unauthorized attempt to get events", log15.Ctx{"type": entry})
 			r.errorResponse(403, "Forbidden", writer, request)
 
@@ -245,7 +246,7 @@ func (r *rest) eventSendRaw(raw any) error {
 		}
 
 		// Only send the right event types
-		if listener.messageTypes != nil && !utils.StringInSlice(event.Type, listener.messageTypes) {
+		if listener.messageTypes != nil && !slices.Contains(listener.messageTypes, event.Type) {
 			continue
 		}
 
@@ -263,7 +264,7 @@ func (r *rest) eventSendRaw(raw any) error {
 					continue
 				}
 
-				if utils.Int64InSlice(timeline.TeamID, r.hiddenTeams) {
+				if slices.Contains(r.hiddenTeams, timeline.TeamID) {
 					continue
 				}
 			}
