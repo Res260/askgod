@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"slices"
-	"sort"
 	"strconv"
 
 	"github.com/olekukonko/tablewriter"
@@ -14,29 +13,30 @@ import (
 	"github.com/nsec/askgod/api"
 )
 
-// Sorting.
-type byPointsAndLastSubmitTime []api.ScoreboardEntry
-
-func (a byPointsAndLastSubmitTime) Len() int {
-	return len(a)
-}
-
-func (a byPointsAndLastSubmitTime) Swap(i, j int) {
-	a[i], a[j] = a[j], a[i]
-}
-
-func (a byPointsAndLastSubmitTime) Less(i, j int) bool {
-	if a[i].Value != a[j].Value {
-		return a[i].Value > a[j].Value
-	}
-
-	return a[i].LastSubmitTime.Before(a[j].LastSubmitTime)
-}
-
 func (c *client) cmdScoreboard(ctx *cli.Context) error {
 	board := []api.ScoreboardEntry{}
 
 	const layout = "2006/01/02 15:04"
+
+	byPointsAndLastSubmitTime := func(a api.ScoreboardEntry, b api.ScoreboardEntry) int {
+		if a.Value != b.Value {
+			if a.Value < b.Value {
+				return 1
+			}
+
+			return -1
+		}
+
+		if a.LastSubmitTime.Equal(b.LastSubmitTime) {
+			return 0
+		}
+
+		if a.LastSubmitTime.Before(b.LastSubmitTime) {
+			return -1
+		}
+
+		return 1
+	}
 
 	drawTable := func(board []api.ScoreboardEntry) {
 		table := tablewriter.NewWriter(os.Stdout)
@@ -72,7 +72,7 @@ func (c *client) cmdScoreboard(ctx *cli.Context) error {
 			return err
 		}
 
-		sort.Sort(byPointsAndLastSubmitTime(board))
+		slices.SortFunc(board, byPointsAndLastSubmitTime)
 
 		drawTable(board)
 
@@ -181,7 +181,7 @@ func (c *client) cmdScoreboard(ctx *cli.Context) error {
 			}
 
 			// Sort the updated board ourselves
-			sort.Sort(byPointsAndLastSubmitTime(board))
+			slices.SortFunc(board, byPointsAndLastSubmitTime)
 
 			chUpdate <- true
 		}

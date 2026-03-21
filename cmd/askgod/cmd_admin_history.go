@@ -1,8 +1,9 @@
 package main
 
 import (
+	"cmp"
 	"os"
-	"sort"
+	"slices"
 	"strconv"
 
 	"github.com/olekukonko/tablewriter"
@@ -11,21 +12,6 @@ import (
 	"github.com/nsec/askgod/api"
 	"github.com/nsec/askgod/internal/utils"
 )
-
-// Sorting.
-type byFlagID []api.AdminScore
-
-func (a byFlagID) Len() int {
-	return len(a)
-}
-
-func (a byFlagID) Swap(i, j int) {
-	a[i], a[j] = a[j], a[i]
-}
-
-func (a byFlagID) Less(i, j int) bool {
-	return a[i].FlagID < a[j].FlagID
-}
 
 func (c *client) cmdAdminHistory(_ *cli.Context) error {
 	// Get the scores
@@ -36,7 +22,9 @@ func (c *client) cmdAdminHistory(_ *cli.Context) error {
 		return err
 	}
 
-	sort.Sort(byFlagID(scores))
+	slices.SortFunc(scores, func(a api.AdminScore, b api.AdminScore) int {
+		return cmp.Compare(a.FlagID, b.FlagID)
+	})
 
 	// Get the teams
 	teams := []api.AdminTeam{}
