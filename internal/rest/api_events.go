@@ -16,7 +16,6 @@ import (
 	"github.com/google/uuid"
 	"github.com/gorilla/websocket"
 	"github.com/inconshreveable/log15"
-	"github.com/lxc/incus/v6/shared/ws"
 
 	"github.com/nsec/askgod/api"
 	"github.com/nsec/askgod/internal/utils"
@@ -39,6 +38,12 @@ type eventListener struct {
 	teamid  int64
 }
 
+// upgrader is a websocket upgrader which ignores the request Origin.
+var upgrader = websocket.Upgrader{
+	CheckOrigin:      func(_ *http.Request) bool { return true },
+	HandshakeTimeout: time.Second * 5,
+}
+
 func (r *rest) injectEvents(writer http.ResponseWriter, request *http.Request, logger log15.Logger) {
 	// Access control
 	if !r.isPeer(request) {
@@ -49,7 +54,7 @@ func (r *rest) injectEvents(writer http.ResponseWriter, request *http.Request, l
 	}
 
 	// Setup websocket
-	conn, err := ws.Upgrader.Upgrade(writer, request, nil)
+	conn, err := upgrader.Upgrade(writer, request, nil)
 	if err != nil {
 		logger.Error("Failed to setup websocket", log15.Ctx{"error": err})
 		r.errorResponse(500, fmt.Sprintf("%v", err), writer, request)
@@ -152,7 +157,7 @@ func (r *rest) getEvents(writer http.ResponseWriter, request *http.Request, logg
 	}
 
 	// Setup websocket
-	c, err := ws.Upgrader.Upgrade(writer, request, nil)
+	c, err := upgrader.Upgrade(writer, request, nil)
 	if err != nil {
 		logger.Error("Failed to setup websocket", log15.Ctx{"error": err})
 		r.errorResponse(500, fmt.Sprintf("%v", err), writer, request)
