@@ -10,10 +10,11 @@ require (
 	github.com/gorilla/websocket v1.5.3
 	github.com/inconshreveable/log15 v2.16.0+incompatible
 	github.com/lib/pq v1.12.0
-	github.com/lxc/incus/v6 v6.22.0
-	github.com/olekukonko/tablewriter v1.1.4
+	github.com/lxc/incus/v6 v6.14.0
+	github.com/olekukonko/tablewriter v0.0.5
 	github.com/prometheus/client_golang v1.23.2
 	github.com/urfave/cli/v2 v2.27.7
+	github.com/urfave/cli/v3 v3.7.0
 )
 
 require (
