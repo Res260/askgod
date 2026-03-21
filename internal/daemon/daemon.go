@@ -144,7 +144,9 @@ func (d *Daemon) Run(ctx context.Context) error {
 
 	if d.config.Daemon.HTTPPort > 0 {
 		// Prepare the TCP socket
-		socket, err := net.Listen("tcp", fmt.Sprintf(":%d", d.config.Daemon.HTTPPort))
+		lc := &net.ListenConfig{}
+
+		socket, err := lc.Listen(ctx, "tcp", fmt.Sprintf(":%d", d.config.Daemon.HTTPPort))
 		if err != nil {
 			return err
 		}
@@ -207,7 +209,9 @@ func (d *Daemon) Run(ctx context.Context) error {
 		}
 
 		// Prepare the TCP socket
-		socket, err := net.Listen("tcp", fmt.Sprintf(":%d", d.config.Daemon.HTTPSPort))
+		lc := &net.ListenConfig{}
+
+		socket, err := lc.Listen(ctx, "tcp", fmt.Sprintf(":%d", d.config.Daemon.HTTPSPort))
 		if err != nil {
 			return err
 		}
@@ -241,7 +245,9 @@ func (d *Daemon) Run(ctx context.Context) error {
 
 	if d.config.Daemon.PrometheusPort > 0 {
 		// Prepare the TCP socket
-		socket, err := net.Listen("tcp", fmt.Sprintf(":%d", d.config.Daemon.PrometheusPort))
+		lc := &net.ListenConfig{}
+
+		socket, err := lc.Listen(ctx, "tcp", fmt.Sprintf(":%d", d.config.Daemon.PrometheusPort))
 		if err != nil {
 			return err
 		}
