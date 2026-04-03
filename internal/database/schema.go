@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS score (
     value INTEGER NOT NULL DEFAULT 0,
     submit_time TIMESTAMP WITH TIME ZONE,
     notes VARCHAR,
+    ai_agent BOOLEAN NOT NULL DEFAULT FALSE,
     FOREIGN KEY (teamid) REFERENCES team (id) ON DELETE CASCADE,
     FOREIGN KEY (flagid) REFERENCES flag (id) ON DELETE CASCADE,
     UNIQUE(teamid, flagid)
