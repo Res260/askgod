@@ -110,7 +110,7 @@ func (c *client) cmdAdminListScores(ctx context.Context, _ *cli.Command) error {
 	const layout = "2006/01/02 15:04"
 
 	table := tablewriter.NewWriter(os.Stdout)
-	table.SetHeader([]string{"ID", "TeamID", "FlagID", "Value", "Submit time", "Notes"})
+	table.SetHeader([]string{"ID", "TeamID", "FlagID", "Value", "Submit time", "AI Agent", "Notes"})
 	table.SetBorder(false)
 	table.SetAutoWrapText(false)
 
@@ -121,6 +121,7 @@ func (c *client) cmdAdminListScores(ctx context.Context, _ *cli.Command) error {
 			strconv.FormatInt(entry.FlagID, 10),
 			strconv.FormatInt(entry.Value, 10),
 			entry.SubmitTime.Local().Format(layout),
+			strconv.FormatBool(entry.AIAgent),
 			entry.Notes,
 		})
 	}
