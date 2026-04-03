@@ -231,6 +231,15 @@ func main() {
 					Name:  "notes",
 					Usage: "Some notes to remind you of the flag",
 				},
+				&cli.BoolFlag{
+					Name:  "agent",
+					Usage: "Flag was found mostly or entirely with an AI agent",
+				},
+				&cli.BoolFlag{
+					Name:    "no-ai-autodetect",
+					Sources: cli.EnvVars("ASKGOD_DISABLE_AGENT_AUTODETECT"),
+					Usage:   "Disable automatic AI agent detection",
+				},
 			},
 			Action: c.cmdSubmit,
 		},
