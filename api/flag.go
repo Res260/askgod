@@ -15,6 +15,7 @@ type Flag struct {
 	Description  string    `json:"description"   yaml:"description"`
 	ReturnString string    `json:"return_string" yaml:"return_string"`
 	Value        int64     `json:"value"         yaml:"value"`
+	AIAgent      bool      `json:"ai_agent"      yaml:"ai_agent"`
 	SubmitTime   time.Time `json:"submit_time"   yaml:"submit_time"`
 }
 
@@ -27,7 +28,8 @@ type FlagPut struct {
 type FlagPost struct {
 	FlagPut `yaml:",inline"`
 
-	Flag string `json:"flag" yaml:"flag"`
+	Flag    string `json:"flag"     yaml:"flag"`
+	AIAgent bool   `json:"ai_agent" yaml:"ai_agent"`
 }
 
 // URL: /1.0/flags
