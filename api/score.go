@@ -26,6 +26,7 @@ type AdminScorePut struct {
 type AdminScorePost struct {
 	AdminScorePut `yaml:",inline"`
 
-	TeamID int64 `json:"team_id" yaml:"team_id"`
-	FlagID int64 `json:"flag_id" yaml:"flag_id"`
+	TeamID  int64 `json:"team_id"  yaml:"team_id"`
+	FlagID  int64 `json:"flag_id"  yaml:"flag_id"`
+	AIAgent bool  `json:"ai_agent" yaml:"ai_agent"`
 }

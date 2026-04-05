@@ -118,7 +118,7 @@ func (r *rest) adminCreateScoreCommon(writer http.ResponseWriter, request *http.
 
 	_ = r.eventSend("timeline", api.EventTimeline{TeamID: team.ID, Team: &team.TeamPut, Score: &score, Type: "score-updated"})
 
-	logger.Info("New score entry defined", log15.Ctx{"id": id, "flagid": newScore.FlagID, "teamid": newScore.TeamID, "value": newScore.Value})
+	logger.Info("New score entry defined", log15.Ctx{"id": id, "flagid": newScore.FlagID, "teamid": newScore.TeamID, "value": newScore.Value, "ai_agent": newScore.AIAgent})
 
 	return true
 }
